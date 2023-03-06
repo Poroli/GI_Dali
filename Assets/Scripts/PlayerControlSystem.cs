@@ -3,17 +3,18 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-public class InspectorMainSystem : MonoBehaviour
+public class PlayerControlSystem : MonoBehaviour
 {
     [SerializeField] private LayerMask layerMask;
     private NavMeshAgent navMeshAgent;
     private Camera cam;
-    private Vector2 targetposition;
+    private Vector3 targetposition;
     private Vector2 mouseScreenPosition;
 
     private void Start()
     {
         cam = Camera.main;
+        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     private void Update()
