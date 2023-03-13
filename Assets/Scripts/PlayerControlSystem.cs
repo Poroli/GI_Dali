@@ -15,6 +15,7 @@ public class PlayerControlSystem : MonoBehaviour
     {
         cam = Camera.main;
         navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.updateRotation = false;
     }
 
     private void Update()
