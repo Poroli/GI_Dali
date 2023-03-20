@@ -5,18 +5,28 @@ using UnityEngine.AI;
 
 public class WaiterControlSystem : MonoBehaviour
 {
+    public static List<Cooker> CookersForServe;
+
+
     [SerializeField] private List<Table> tablesToServe;
     [SerializeField] private GameObject parkingPosition;
-    [SerializeField] private GameObject cooker;
     private NavMeshAgent navMeshAgent;
     private bool getDish;
     private bool setDish;
 
-    private void SetNewDestination()
+    private void CheckIfSoupReady()
+    {
+        if (CookersForServe.Count > 0 && !setDish)
+        {
+            getDish = true;
+        }
+    }
+
+    private void ServingPath()
     {
         if (!navMeshAgent.hasPath)
         {
-            if (tablesToServe.Count == 0)
+            if (tablesToServe.Count == 0 && CookersForServe.Count == 0)
             {
                 navMeshAgent.SetDestination(parkingPosition.transform.position);
             }
@@ -33,8 +43,8 @@ public class WaiterControlSystem : MonoBehaviour
         if (getDish)
         {
             if (!navMeshAgent.hasPath) 
-            { 
-                navMeshAgent.SetDestination(cooker.transform.position);
+            {
+                navMeshAgent.SetDestination(CookersForServe[0].CookerPosition);
             }
             else if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
             {
@@ -48,6 +58,7 @@ public class WaiterControlSystem : MonoBehaviour
             if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
             {
                 tablesToServe.RemoveAt(0);
+                setDish = false;
             }
         }
     }
