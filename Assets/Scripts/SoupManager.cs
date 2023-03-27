@@ -79,7 +79,7 @@ public class SoupManager : MonoBehaviour
 
 public class Soup : ScriptableObject
 {
-    public bool Ingredients = true;
+    public bool Ingredients;
     public bool Poisoned;
     public bool IsCooking;
     public bool ReadyForServe;
