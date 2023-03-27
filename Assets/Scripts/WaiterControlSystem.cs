@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 public class WaiterControlSystem : MonoBehaviour
 {
-    public static List<Cooker> CookersForServe;
+    public static List<Cooker> CookersForServe = new();
 
 
     [SerializeField] private List<Table> tablesToServe;
@@ -13,25 +13,20 @@ public class WaiterControlSystem : MonoBehaviour
     private NavMeshAgent navMeshAgent;
     private bool getDish;
     private bool setDish;
-
-    private void CheckIfSoupReady()
-    {
-        if (CookersForServe.Count > 0 && !setDish)
-        {
-            getDish = true;
-        }
-    }
+    private bool parked;
 
     private void ServingPath()
     {
         if (!navMeshAgent.hasPath)
         {
-            if (tablesToServe.Count == 0 && CookersForServe.Count == 0)
+            if (tablesToServe.Count == 0 && CookersForServe.Count == 0 && !parked)
             {
+                parked = true;
                 navMeshAgent.SetDestination(parkingPosition.transform.position);
             }
             else
             {
+                parked = false;
                 ServingDish();
             }
 
@@ -53,6 +48,11 @@ public class WaiterControlSystem : MonoBehaviour
                 setDish = true;
             }
         }
+        else if (CookersForServe.Count > 0 && !setDish)
+        {
+            getDish = true;
+        }
+
         if (setDish)
         {
             if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
@@ -62,6 +62,12 @@ public class WaiterControlSystem : MonoBehaviour
             }
         }
     }
+
+    private void FixedUpdate()
+    {
+        ServingPath();
+    }
+
     private void Start()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
