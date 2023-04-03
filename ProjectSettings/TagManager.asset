@@ -7,6 +7,9 @@ TagManager:
   - PlaceToCheck
   - Cooker
   - Table
+  - Ground
+  - Counter
+  - Fridge
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,7 @@ TagManager:
   - UI
   - Grid
   - Characters
-  - Interactable
+  - 
   - 
   - 
   - 

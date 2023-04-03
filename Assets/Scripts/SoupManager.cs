@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class SoupManager : MonoBehaviour
 {
+    public static List<Meat> MeatList = new List<Meat>();
+    public static Fridge[] Fridges;
+    public static Cooker[] Cookers;
+    public static Table[] Tables;
 
     [SerializeField] private float timeToCook;
-    private Table[] Tables;
-    private Cooker[] Cookers;
 
     private void CookingAgent()
     {
@@ -30,23 +32,14 @@ public class SoupManager : MonoBehaviour
         StopCoroutine(SoupReadyForServe(i));
     }
 
-    private void PoisonSoup()
-    {
-        for (int i = 0; i < Cookers.Length; i++)
-        {
-            if (Cookers[i].SoupToCook.IsCooking && !Cookers[i].SoupToCook.Poisoned /* && Hier auf Topf geklickt einfügen */)
-            {
-                Cookers[i].SoupToCook.Poisoned = true;
-            }
-        }
-    }
-
-    private void CreateTableAndCookerList()
+    private void CreateTableCookerAndFridgeList()
     {
         GameObject[] tempTableGOs = GameObject.FindGameObjectsWithTag("Table");
         GameObject[] tempCookersGOs = GameObject.FindGameObjectsWithTag("Cooker");
+        GameObject[] tempFridgeGOs = GameObject.FindGameObjectsWithTag("Fridge");
         Tables = new Table[tempTableGOs.Length];
         Cookers = new Cooker[tempCookersGOs.Length];
+        Fridges = new Fridge[tempFridgeGOs.Length];
 
         for (int i = 0; i < Tables.Length; i++)
         {
@@ -63,17 +56,21 @@ public class SoupManager : MonoBehaviour
             Cookers[i].CookerPosition = tempCookersGOs[i].transform.position;
             Cookers[i].SoupToCook = ScriptableObject.CreateInstance<Soup>();
         }
+        for (int i = 0; i < Fridges.Length; i++)
+        {
+            Fridges[i] = ScriptableObject.CreateInstance<Fridge>();
+            Fridges[i].FridgeIdentify = tempFridgeGOs[i];
+        }
     }
 
     private void Start()
     {
-        CreateTableAndCookerList();
+        CreateTableCookerAndFridgeList();
     }
 
     private void Update()
     {
         CookingAgent();
-        PoisonSoup();
     }
 }
 
@@ -93,5 +90,17 @@ public class Cooker : ScriptableObject
 public class Table : ScriptableObject
 {
     public int TableID;
+    public bool HasCustomer;
+    public bool DishServed;
     public Vector3 TablePosition;
+}
+public class Meat : ScriptableObject
+{
+    public bool Corpse = true;
+    public bool Hamburger;
+}
+public class Fridge : ScriptableObject
+{
+    public bool StoresMeat;
+    public GameObject FridgeIdentify;
 }
