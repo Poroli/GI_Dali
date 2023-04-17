@@ -64,7 +64,7 @@ public class PlayerControlSystem : MonoBehaviour
 
     private void CounterMeatProduction()
     {
-        if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && !pathCheckCooldown)
+        if (navMeshAgent.remainingDistance <= 0.1f && !pathCheckCooldown)
         {
             SoupManager.MeatList[0].Corpse = false;
             SoupManager.MeatList[0].Hamburger = true;
@@ -72,9 +72,8 @@ public class PlayerControlSystem : MonoBehaviour
     }
     private void Fridging()
     {
-        if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && !pathCheckCooldown)
+        if (navMeshAgent.remainingDistance <= 0.1f && !pathCheckCooldown)
         {
-            print("asshole");
             if (carryMeat)
             {
                 for (int i = 0; i < SoupManager.Fridges.Length; i++)
@@ -101,7 +100,7 @@ public class PlayerControlSystem : MonoBehaviour
     }
     private void TryToCook()
     {
-        if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete && !pathCheckCooldown)
+        if (navMeshAgent.remainingDistance <= 0.1f && !pathCheckCooldown)
         {
             if (carryMeat)
             {
@@ -152,16 +151,15 @@ public class PlayerControlSystem : MonoBehaviour
         }
         if (tryToCook)
         {
-            //TryToCook();
+            TryToCook();
         }
         if (counterMeatProduction)
         {
-            //CounterMeatProduction();
+            CounterMeatProduction();
         }
         if (fridging)
         {
-            //Fridging();
+            Fridging();
         }
-        print (navMeshAgent.pathStatus);
     }
 }
