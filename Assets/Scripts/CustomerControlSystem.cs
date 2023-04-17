@@ -8,6 +8,7 @@ public class CustomerControlSystem : MonoBehaviour
     [SerializeField] private GameObject CustomerPrefab;
     private List<Customer> customers = new List<Customer>();
     private Table table;
+    private Soup servedSoup;
 
 
     private void CustomerOrganizer()
@@ -25,6 +26,7 @@ public class CustomerControlSystem : MonoBehaviour
                     if (!SoupManager.Tables[j].HasCustomer)
                     {
                         customers[i].navMeshAgent.destination = SoupManager.Tables[j].TablePosition;
+                        SoupManager.Tables[j].HasCustomer = true;
                         table = SoupManager.Tables[j];
                         break;
                     }
@@ -33,24 +35,31 @@ public class CustomerControlSystem : MonoBehaviour
             }
         }
     }
+    private void EatingSoup(int i, Table table)
+    {
+        print("ateSoup");
+        if (table.SoupOnTable.Poisoned)
+        {
+
+        }
+        customers[i].Sitting = false;
+        table.DishServed = false;
+        table.HasCustomer = false;
+    }
 
     private IEnumerator CustomerReachedTable(int i, Table table)
     {
         yield return customers[i].navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete;
         customers[i].Sitting = true;
-        StartCoroutine("WaitingForSoup", table);
+        StartCoroutine(WaitingForSoup(i, table));
     }
 
-    private IEnumerator WaitingForSoup(Table table)
+    private IEnumerator WaitingForSoup(int i,Table table)
     {
         yield return table.DishServed;
-        EatingSoup();
+        EatingSoup(i,table);
     }
 
-    private void EatingSoup()
-    {
-
-    }
 }
 
 public class Customer : ScriptableObject

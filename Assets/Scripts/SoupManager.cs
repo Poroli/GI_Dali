@@ -93,6 +93,7 @@ public class Table : ScriptableObject
     public bool HasCustomer;
     public bool DishServed;
     public Vector3 TablePosition;
+    public Soup SoupOnTable;
 }
 public class Meat : ScriptableObject
 {
@@ -101,6 +102,6 @@ public class Meat : ScriptableObject
 }
 public class Fridge : ScriptableObject
 {
-    public bool StoresMeat;
+    public bool StoresMeat = true;
     public GameObject FridgeIdentify;
 }
