@@ -1,13 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-9045224980337764356
+--- !u!1102 &-4862340157764842245
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaiterBackwardSoupPoison
+  m_Name: InspectorWalkRight
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,13 +20,13 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 74f404156a13c884a8ec757cdb2c8bb8, type: 2}
+  m_Motion: {fileID: 7400000, guid: 3007219d3c82a7644be934d6f299f0bc, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1107 &-8523275903829918769
+--- !u!1107 &-3123511251593035577
 AnimatorStateMachine:
   serializedVersion: 6
   m_ObjectHideFlags: 1
@@ -36,23 +36,17 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: -1141495224187745936}
-    m_Position: {x: 200, y: 0, z: 0}
+    m_State: {fileID: -1016416699324912146}
+    m_Position: {x: 360, y: 80, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 5704616590752771410}
-    m_Position: {x: 550, y: 40, z: 0}
+    m_State: {fileID: 5967341353415970231}
+    m_Position: {x: 520, y: 170, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: 6583925883181919110}
-    m_Position: {x: 540, y: 130, z: 0}
+    m_State: {fileID: -2569085596895959518}
+    m_Position: {x: 551.303, y: 230.64062, z: 0}
   - serializedVersion: 1
-    m_State: {fileID: -3245396654688715954}
-    m_Position: {x: 200, y: 150, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -5008166504356144928}
-    m_Position: {x: 570, y: 220, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: -9045224980337764356}
-    m_Position: {x: 370, y: 210, z: 0}
+    m_State: {fileID: -4862340157764842245}
+    m_Position: {x: 604.29095, y: 330.35236, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -62,15 +56,15 @@ AnimatorStateMachine:
   m_EntryPosition: {x: 50, y: 120, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: -1141495224187745936}
---- !u!1102 &-5008166504356144928
+  m_DefaultState: {fileID: -1016416699324912146}
+--- !u!1102 &-2569085596895959518
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaiterForwardSoupPoison
+  m_Name: InspectorWalkLeft
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -83,20 +77,20 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: fa34458708c0d9e4cabb6ea2ee19cd26, type: 2}
+  m_Motion: {fileID: 7400000, guid: f27dfea9b05eb4a419b02365cc657452, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
---- !u!1102 &-3245396654688715954
+--- !u!1102 &-1016416699324912146
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaiterBackwardSoupTasty
+  m_Name: InspectorWalkForward
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -109,33 +103,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 323e23a8efb62e846ad1f359ba0d5963, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &-1141495224187745936
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: Waiter
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 88cdebaa0b5a27b40a9e935c74e44137, type: 2}
+  m_Motion: {fileID: 7400000, guid: 36aac4a1c4be13b4d82c0507f4f625e1, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -147,13 +115,13 @@ AnimatorController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Waiter
+  m_Name: Inspector
   serializedVersion: 5
   m_AnimatorParameters: []
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
-    m_StateMachine: {fileID: -8523275903829918769}
+    m_StateMachine: {fileID: -3123511251593035577}
     m_Mask: {fileID: 0}
     m_Motions: []
     m_Behaviours: []
@@ -163,14 +131,14 @@ AnimatorController:
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
---- !u!1102 &5704616590752771410
+--- !u!1102 &5967341353415970231
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: WaiterBackward
+  m_Name: InspectorWalkBackward
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -183,33 +151,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: c5b72c1b36286c542bbdddcacfa73932, type: 2}
-  m_Tag: 
-  m_SpeedParameter: 
-  m_MirrorParameter: 
-  m_CycleOffsetParameter: 
-  m_TimeParameter: 
---- !u!1102 &6583925883181919110
-AnimatorState:
-  serializedVersion: 6
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: WaiterForwardSoupTasty
-  m_Speed: 1
-  m_CycleOffset: 0
-  m_Transitions: []
-  m_StateMachineBehaviours: []
-  m_Position: {x: 50, y: 50, z: 0}
-  m_IKOnFeet: 0
-  m_WriteDefaultValues: 1
-  m_Mirror: 0
-  m_SpeedParameterActive: 0
-  m_MirrorParameterActive: 0
-  m_CycleOffsetParameterActive: 0
-  m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: 61d0b0e6a800d8549a69f55479e7e8ff, type: 2}
+  m_Motion: {fileID: 7400000, guid: 5c683c71815a8ae4fb066e50dfcab351, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
