@@ -11,6 +11,7 @@ public class InspectorControlSystem : MonoBehaviour
     [SerializeField] private int numOfPlacesToCheck;
     [SerializeField][Range(1, 50)] private float maxRaycastRange;
     [SerializeField] private LayerMask layersRaycastCanDetect;
+    [SerializeField] private bool debugGizmosOn;
     private NavMeshAgent navMeshAgent;
     private Vector3[] pathCornerPositions;
     private int currentCheckListPosition = 0;
@@ -35,12 +36,13 @@ public class InspectorControlSystem : MonoBehaviour
         }
     }
 
-    private void Test()
+    private void InspectorWalkDirectionIdentiy()
     {
         pathCornerPositions = navMeshAgent.path.corners;
 
         if (pathCornerPositions.Length < 2)
         {
+            // tritt eigl. nie ein... ist zur absicherung da
             return;
         }
         if (Mathf.Abs((gameObject.transform.position - pathCornerPositions[1]).x) < Mathf.Abs((gameObject.transform.position - pathCornerPositions[1]).z))
@@ -88,7 +90,7 @@ public class InspectorControlSystem : MonoBehaviour
     private void FixedUpdate()
     {
         SetNewDestination();
-        Test();
+        InspectorWalkDirectionIdentiy();
     }
     private void Start()
     {
@@ -100,7 +102,7 @@ public class InspectorControlSystem : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (Application.isPlaying)
+        if (Application.isPlaying && debugGizmosOn)
         {
             if (pathCornerPositions.Length >= 2)
             {
