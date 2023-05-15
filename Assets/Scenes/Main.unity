@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 560983013}
   - component: {fileID: 560983012}
   - component: {fileID: 560983011}
-  m_Layer: 30
+  m_Layer: 29
   m_Name: Wall-E
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1475,7 +1475,7 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 1
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 120
@@ -1502,6 +1502,10 @@ MonoBehaviour:
   placesToCheck: []
   parkingPosition: {fileID: 843430024}
   numOfPlacesToCheck: 2
+  maxRaycastRange: 5
+  layersRaycastCanDetect:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &983273199
 GameObject:
   m_ObjectHideFlags: 0
@@ -1812,7 +1816,7 @@ GameObject:
   - component: {fileID: 1379503083}
   - component: {fileID: 1379503082}
   - component: {fileID: 1379503081}
-  m_Layer: 30
+  m_Layer: 29
   m_Name: Wall-A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2481,7 +2485,7 @@ GameObject:
   - component: {fileID: 2027938763}
   - component: {fileID: 2027938762}
   - component: {fileID: 2027938761}
-  m_Layer: 30
+  m_Layer: 29
   m_Name: Wall-C
   m_TagString: Untagged
   m_Icon: {fileID: 0}

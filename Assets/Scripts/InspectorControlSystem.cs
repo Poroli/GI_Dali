@@ -9,8 +9,11 @@ public class InspectorControlSystem : MonoBehaviour
     [SerializeField] private GameObject[] placesToCheck;
     [SerializeField] private GameObject parkingPosition;
     [SerializeField] private int numOfPlacesToCheck;
+    [SerializeField][Range(1, 50)] private float maxRaycastRange;
+    [SerializeField] private LayerMask layersRaycastCanDetect;
     private NavMeshAgent navMeshAgent;
-    private int currentCheckListPostion = 0;
+    private Vector3[] pathCornerPositions;
+    private int currentCheckListPosition = 0;
 
     private void SetPlacesToCheckOrder()
     {
@@ -22,7 +25,7 @@ public class InspectorControlSystem : MonoBehaviour
         }
         else
         {
-            placesToCheck = new GameObject[numOfPlacesToCheck]; 
+            placesToCheck = new GameObject[numOfPlacesToCheck];
             for (int i = 0; i < placesToCheck.Length; i++)
             {
                 int tempint = Random.Range(0, possiblePlacesToCheck.Count);
@@ -32,18 +35,52 @@ public class InspectorControlSystem : MonoBehaviour
         }
     }
 
+    private void Test()
+    {
+        pathCornerPositions = navMeshAgent.path.corners;
+
+        if (pathCornerPositions.Length < 2)
+        {
+            return;
+        }
+        if (Mathf.Abs((gameObject.transform.position - pathCornerPositions[1]).x) < Mathf.Abs((gameObject.transform.position - pathCornerPositions[1]).z))
+        {
+            switch ((gameObject.transform.position - pathCornerPositions[1]).z)
+            {
+                case > 0:
+                    Physics.Raycast(gameObject.transform.position, Vector3.forward, maxRaycastRange, layersRaycastCanDetect);
+                    break;
+                case < 0:
+                    Physics.Raycast(gameObject.transform.position, Vector3.back, maxRaycastRange, layersRaycastCanDetect);
+                    break;
+            }
+        }
+        else
+        {
+            switch ((gameObject.transform.position - pathCornerPositions[1]).x)
+            {
+                case > 0:
+                    Physics.Raycast(gameObject.transform.position, Vector3.right, maxRaycastRange, layersRaycastCanDetect);
+                    break;
+                case < 0:
+                    Physics.Raycast(gameObject.transform.position, Vector3.left, maxRaycastRange, layersRaycastCanDetect);
+                    break;
+            }
+        }
+    }
+
     private void SetNewDestination()
     {
         if (!navMeshAgent.hasPath)
         {
-            if ((currentCheckListPostion) > (placesToCheck.Length -1))
+            if ((currentCheckListPosition) > (placesToCheck.Length - 1))
             {
                 navMeshAgent.SetDestination(parkingPosition.transform.position);
             }
             else
             {
-                navMeshAgent.SetDestination(placesToCheck[currentCheckListPostion].transform.position);
-                currentCheckListPostion++;
+                navMeshAgent.SetDestination(placesToCheck[currentCheckListPosition].transform.position);
+                currentCheckListPosition++;
             }
         }
     }
@@ -51,6 +88,7 @@ public class InspectorControlSystem : MonoBehaviour
     private void FixedUpdate()
     {
         SetNewDestination();
+        Test();
     }
     private void Start()
     {
@@ -58,5 +96,44 @@ public class InspectorControlSystem : MonoBehaviour
         navMeshAgent.updateRotation = false;
         gameObject.transform.position = parkingPosition.transform.position;
         SetPlacesToCheckOrder();
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            if (pathCornerPositions.Length >= 2)
+            {
+                if (Mathf.Abs((pathCornerPositions[1] - gameObject.transform.position).x) < Mathf.Abs((pathCornerPositions[1] - gameObject.transform.position).z))
+                {
+                    switch ((pathCornerPositions[1] - gameObject.transform.position).z)
+                    {
+                        case > 0:
+                            Gizmos.DrawLine(gameObject.transform.position, new Vector3(transform.position.x, transform.position.y, transform.position.z + maxRaycastRange));
+                            break;
+                        case < 0:
+                            Gizmos.DrawLine(gameObject.transform.position, new Vector3(transform.position.x, transform.position.y, transform.position.z - maxRaycastRange));
+                            break;
+                    }
+                }
+                else
+                {
+                    switch ((pathCornerPositions[1] - gameObject.transform.position).x)
+                    {
+                        case > 0:
+                            Gizmos.DrawLine(gameObject.transform.position, new Vector3(transform.position.x + maxRaycastRange, transform.position.y, transform.position.z));
+                            break;
+                        case < 0:
+                            Gizmos.DrawLine(gameObject.transform.position, new Vector3(transform.position.x - maxRaycastRange, transform.position.y, transform.position.z));
+                            break;
+                    }
+                }
+            }
+
+            for (int i = 0; i < pathCornerPositions.Length; i++)
+            {
+                Gizmos.DrawWireSphere(pathCornerPositions[i], 0.5f);
+            }
+        }
     }
 }
