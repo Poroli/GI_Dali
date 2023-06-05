@@ -7,6 +7,9 @@ TagManager:
   - PlaceToCheck
   - Cooker
   - Table
+  - Ground
+  - Counter
+  - Fridge
   layers:
   - Default
   - TransparentFX
@@ -16,7 +19,6 @@ TagManager:
   - UI
   - Grid
   - Characters
-  - Interactable
   - 
   - 
   - 
@@ -38,6 +40,7 @@ TagManager:
   - 
   - 
   - 
+  - InvisibleWall
   - Invisible
   - 
   m_SortingLayers:

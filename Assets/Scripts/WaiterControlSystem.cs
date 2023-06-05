@@ -44,22 +44,30 @@ public class WaiterControlSystem : MonoBehaviour
             else if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
             {
                 getDish = false;
+                for (int i = 0; i < SoupManager.Cookers.Length; i++)
+                {
+                    if (SoupManager.Cookers[i].CookerPosition == CookersForServe[0].CookerPosition)
+                    {
+                        StartCoroutine(ServingCookedSoup(CookersForServe[0].SoupToCook.Poisoned));
+                    }
+                }
                 navMeshAgent.SetDestination(tablesToServe[0].TablePosition);
-                setDish = true;
             }
         }
         else if (CookersForServe.Count > 0 && !setDish)
         {
             getDish = true;
         }
+    }
 
-        if (setDish)
+    private IEnumerator ServingCookedSoup(bool soupServedPoisoned)
+    {
+        if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
         {
-            if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
-            {
-                tablesToServe.RemoveAt(0);
-                setDish = false;
-            }
+            tablesToServe[0].DishServed = true;
+            tablesToServe.RemoveAt(0);
+            tablesToServe[0].SoupOnTable.Poisoned = soupServedPoisoned;
+            yield break;
         }
     }
 
