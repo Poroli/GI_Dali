@@ -77,23 +77,31 @@ public class PlayerControlSystem : MonoBehaviour
             {
                 for (int i = 0; i < SoupManager.Fridges.Length; i++)
                 {
-                    if (hit.collider.gameObject.Equals(SoupManager.Fridges[i]))
+                    if (hit.collider.gameObject.Equals(SoupManager.Fridges[i].FridgeIdentify))
                     {
+                        print("putdown Meat");
                         SoupManager.Fridges[i].StoresMeat = true;
                         carryMeat = false;
+                        fridging = false;
+                        break;
                     }
                 }
+                return;
             }
             if (!carryMeat)
             {
                 for (int i = 0; i < SoupManager.Fridges.Length; i++)
                 {
-                    if (hit.collider.gameObject.Equals(SoupManager.Fridges[i]) && SoupManager.Fridges[i].StoresMeat)
+                    if (hit.collider.gameObject.Equals(SoupManager.Fridges[i].FridgeIdentify) && SoupManager.Fridges[i].StoresMeat)
                     {
-                        SoupManager.Fridges[i].StoresMeat = true;
+                        print("pickup Meat");
+                        SoupManager.Fridges[i].StoresMeat = false;
                         carryMeat = true;
+                        fridging = false;
+                        break;
                     }
                 }
+                return;
             }
         }
     }
@@ -107,9 +115,14 @@ public class PlayerControlSystem : MonoBehaviour
                 {
                     if (!SoupManager.Cookers[i].SoupToCook.Ingredients && hit.collider.gameObject.transform.position.Equals(SoupManager.Cookers[i].CookerPosition))
                     {
+                        print("added Ingrediants");
                         SoupManager.Cookers[i].SoupToCook.Ingredients = true;
+                        carryMeat = false;
+                        tryToCook = false; 
+                        break;
                     }
                 }
+                return;
             }
             else
             {
@@ -117,9 +130,13 @@ public class PlayerControlSystem : MonoBehaviour
                 {
                     if (!SoupManager.Cookers[i].SoupToCook.Poisoned && SoupManager.Cookers[i].SoupToCook.IsCooking && hit.collider.gameObject.transform.position.Equals(SoupManager.Cookers[i].CookerPosition))
                     {
+                        print("poisoned Soup");
                         SoupManager.Cookers[i].SoupToCook.Poisoned = true;
+                        tryToCook = false;
+                        break;
                     }
                 }
+                return;
             }
         }
     }

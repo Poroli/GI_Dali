@@ -30,18 +30,11 @@ public class CustomerControlSystem : MonoBehaviour
     {
         for (int i = 0; i < customers.Count; i++)
         {
-            if (customers[i].Sitting || (customers[i].navMeshAgent.hasPath && customers[i].WalkToTable))
+            if ((customers[i].navMeshAgent.hasPath && customers[i].WalkToTable))
             {
                 continue;
             }
 
-            if (!customers[i].navMeshAgent.hasPath && customers[i].WalkToTable)
-            {
-                print("Customer reached Table");
-                customers[i].Sitting = true;
-                customers[i].WaitingForSoup = true;
-                continue;
-            }
             if (customers[i].WaitingForSoup)
             {
                 if (SoupManager.Tables[customers[i].TableWhereHeSitsID].DishServed)
@@ -50,37 +43,46 @@ public class CustomerControlSystem : MonoBehaviour
                 }
                 continue;
             }
-            else
+            if (customers[i].navMeshAgent.remainingDistance <= 0.1f && customers[i].WalkToTable)
             {
-                for (int j = 0; j < SoupManager.Tables.Length; j++)
+                print("Customer reached Table");
+                WaiterControlSystem.TablesToServe.Add(SoupManager.Tables[customers[i].TableWhereHeSitsID]);
+                customers[i].WalkToTable = false;
+                customers[i].navMeshAgent.isStopped = true;
+                customers[i].Sitting = true;
+                customers[i].WaitingForSoup = true;
+                continue;
+            }
+            for (int j = 0; j < SoupManager.Tables.Length; j++)
+            {
+                if (!SoupManager.Tables[j].HasCustomer)
                 {
-                    if (!SoupManager.Tables[j].HasCustomer)
-                    {
-                        customers[i].navMeshAgent.destination = SoupManager.Tables[j].TablePosition;
-                        SoupManager.Tables[j].HasCustomer = true;
-                        customers[i].TableWhereHeSitsID = j;
-                        customers[i].WalkToTable = true;
-                        break;
-                    }
+                    customers[i].navMeshAgent.destination = SoupManager.Tables[j].TablePosition;
+                    SoupManager.Tables[j].HasCustomer = true;
+                    customers[i].TableWhereHeSitsID = j;
+                    customers[i].WalkToTable = true;
+                    break;
                 }
             }
         }
     }
     private void EatingSoup(int i)
     {
-        print("eatSoup");
+        print("ateSoup");
         if (SoupManager.Tables[customers[i].TableWhereHeSitsID].SoupOnTable.Poisoned)
         {
-
+            print("Customer dies");
+            return;
         }
         customers[i].Sitting = false;
+        customers[i].WaitingForSoup = false;
         SoupManager.Tables[customers[i].TableWhereHeSitsID].DishServed = false;
         SoupManager.Tables[customers[i].TableWhereHeSitsID].HasCustomer = false;
     }
 
     private IEnumerator TimeCutomerNeedsToEat(int i)
     {
-        print("waiting for Soup");
+        print("eatSoup");
         yield return new WaitForSeconds(timeToEatSoup);
         EatingSoup(i);
     }

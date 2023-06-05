@@ -18,6 +18,7 @@ public class SoupManager : MonoBehaviour
             if (Cookers[i].SoupToCook.Ingredients && !Cookers[i].SoupToCook.IsCooking && !Cookers[i].SoupToCook.ReadyForServe)
             {
                 Cookers[i].SoupToCook.IsCooking = true;
+                print("cooking Soup");
                 StartCoroutine(SoupReadyForServe(i));
             }
         }
@@ -30,6 +31,7 @@ public class SoupManager : MonoBehaviour
         Cookers[i].SoupToCook.IsCooking = false;
         Cookers[i].SoupToCook.ReadyForServe = true;
         StopCoroutine(SoupReadyForServe(i));
+        print ("Soup cooked");
     }
 
     private void CreateTableCookerAndFridgeList()
@@ -47,6 +49,7 @@ public class SoupManager : MonoBehaviour
 
             Tables[i].TableID = i;
             Tables[i].TablePosition = tempTableGOs[i].transform.position;
+            Tables[i].SoupOnTable = ScriptableObject.CreateInstance<Soup>();
         }
         for (int i = 0; i < Cookers.Length; i++)
         {

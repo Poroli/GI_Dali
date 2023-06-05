@@ -7,8 +7,9 @@ public class WaiterControlSystem : MonoBehaviour
 {
     public static List<Cooker> CookersForServe = new();
 
+    public static List<Table> TablesToServe = new();
 
-    [SerializeField] private List<Table> tablesToServe;
+    [SerializeField] [Range (0, 5)]private float timeNeededForServe;
     [SerializeField] private GameObject parkingPosition;
     private NavMeshAgent navMeshAgent;
     private bool getDish;
@@ -17,58 +18,60 @@ public class WaiterControlSystem : MonoBehaviour
 
     private void ServingPath()
     {
-        if (!navMeshAgent.hasPath)
+        if (TablesToServe.Count == 0 && !parked)
         {
-            if (tablesToServe.Count == 0 && CookersForServe.Count == 0 && !parked)
-            {
-                parked = true;
-                navMeshAgent.SetDestination(parkingPosition.transform.position);
-            }
-            else
-            {
-                parked = false;
-                ServingDish();
-            }
-
+            parked = true;
+            navMeshAgent.SetDestination(parkingPosition.transform.position);
         }
+        else if (navMeshAgent.hasPath && parked)
+        {
+            parked = false;
+        }
+        ServingDish();
     }
 
     private void ServingDish()
     {
-        if (getDish)
+        if (setDish &&  navMeshAgent.remainingDistance <= 2.5f)
         {
-            if (!navMeshAgent.hasPath) 
-            {
-                navMeshAgent.SetDestination(CookersForServe[0].CookerPosition);
-            }
-            else if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
-            {
-                getDish = false;
-                for (int i = 0; i < SoupManager.Cookers.Length; i++)
-                {
-                    if (SoupManager.Cookers[i].CookerPosition == CookersForServe[0].CookerPosition)
-                    {
-                        StartCoroutine(ServingCookedSoup(CookersForServe[0].SoupToCook.Poisoned));
-                    }
-                }
-                navMeshAgent.SetDestination(tablesToServe[0].TablePosition);
-            }
+            print("Table to Serve reached");
+            setDish = false;
+            navMeshAgent.isStopped = true;
+            StartCoroutine(Serve());
+            TablesToServe[0].DishServed = true;
+            TablesToServe[0].SoupOnTable.Poisoned = CookersForServe[0].SoupToCook.Poisoned;
+            return;
         }
-        else if (CookersForServe.Count > 0 && !setDish)
+        if (navMeshAgent.remainingDistance <= 0.1f && getDish)
         {
+            for (int i = 0; i < SoupManager.Cookers.Length; i++)
+            {
+                if (SoupManager.Cookers[i].CookerPosition == CookersForServe[0].CookerPosition)
+                {
+                    print("Waiter brings Soup to Customer");
+                    navMeshAgent.SetDestination(TablesToServe[0].TablePosition);
+                    getDish = false;
+                    setDish = true;
+                    break;
+                }
+            }
+            return;
+        }
+        if (CookersForServe.Count > 0 && !setDish && TablesToServe.Count > 0 && !navMeshAgent.hasPath)
+        {
+            print("Waiter goes to Cooker");
+            navMeshAgent.SetDestination(CookersForServe[0].CookerPosition);
             getDish = true;
+            return;
         }
     }
 
-    private IEnumerator ServingCookedSoup(bool soupServedPoisoned)
+    private IEnumerator Serve()
     {
-        if (navMeshAgent.pathStatus == NavMeshPathStatus.PathComplete)
-        {
-            tablesToServe[0].DishServed = true;
-            tablesToServe.RemoveAt(0);
-            tablesToServe[0].SoupOnTable.Poisoned = soupServedPoisoned;
-            yield break;
-        }
+        yield return new WaitForSeconds(timeNeededForServe);
+        navMeshAgent.isStopped = false;
+        navMeshAgent.ResetPath();
+        print("Soup served");
     }
 
     private void FixedUpdate()
