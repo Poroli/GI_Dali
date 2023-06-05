@@ -57,7 +57,6 @@ public class PlayerControlSystem : MonoBehaviour
         }
         if (NavMesh.SamplePosition(targetposition,out NavMeshHit navHit, 5f, NavMesh.AllAreas))
         {
-            print(navHit.position);
             navMeshAgent.destination = navHit.position;
         }
     }
